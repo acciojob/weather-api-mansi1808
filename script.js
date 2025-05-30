@@ -1,23 +1,18 @@
 //your JS code here. If required.
-document.getElementById("getWeatherBtn").addEventListener("click", function () {
-  const apiKey = "YOUR_API_KEY_HERE"; // Replace with your actual API key
-  const city = "London";
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+const express = require('express');Add commentMore actions
+const path = require('path');
 
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Failed to fetch weather data");
-      }
-      return response.json();
-    })
-    .then(data => {
-      const weather = data.weather[0].main;
-      document.getElementById("weatherData").innerText =
-        `Current weather in ${city}: ${weather}`;
-    })
-    .catch(error => {
-      document.getElementById("weatherData").innerText =
-        `Error: ${error.message}`;
-    });
+const app = express();
+
+app.use(express.static(__dirname))
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname + '/main.html'));
 });
+//your code here
+app.post('/add', (req, res) => {
+  const {a,b} = req.body;
+  res.status(200).send(a+b);
+  // res.sendFile(path.join(__dirname + '/main.html'));
+});
+module.exports = app;
